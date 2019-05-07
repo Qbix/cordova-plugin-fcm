@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.Map;
 import java.util.HashMap;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -53,6 +54,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), remoteMessage.getData());
     }
     // [END receive_message]
+
+
+    @Override
+    public void onNewToken(String refreshedToken) {
+        super.onNewToken(refreshedToken);
+        // Get updated InstanceID token.
+//        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        FCMPlugin.sendTokenRefresh( refreshedToken );
+
+        // TODO: Implement this method to send any registration to your app's servers.
+        //sendRegistrationToServer(refreshedToken);
+    }
 
     /**
      * Create and show a simple notification containing the received FCM message.
